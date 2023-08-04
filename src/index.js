@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app';
+import { AuthProvider, AuthContext } from './authProvider';
 
 ReactDOM.render(
-  <App />,
-  document.querySelector('.app') // Use '.app' to select the element with the class name "app".
+    <React.StrictMode>
+        <AuthProvider>
+        <App />
+        </AuthProvider>
+    </React.StrictMode>,
+    document.querySelector('.app') 
 );
