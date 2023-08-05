@@ -4,7 +4,7 @@ import Activities from './compenents/Activities';
 import Login from './compenents/Login';
 import MyRoutines from './compenents/myRoutines';
 import Routines from './compenents/routines';
-import { AuthProvider, AuthContext } from './authProvider';
+//import { AuthProvider, AuthContext } from './authProvider';
 import MyComponent from './compenents/MyComponent';
 import RegistrationPage from './compenents/Register';
 import RegisterUserTest from './compenents/test';

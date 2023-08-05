@@ -1,9 +1,158 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../authProvider";
-import { BASE_URL, registerUser } from "../api";
+import { BASE_URL } from "../api";
 
 
 const RegistrationPage = () => {
+  const { login } = useContext(AuthContext); // Use only the login function from the AuthContext
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleRegistration = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${BASE_URL}/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: {
+            username: username,
+            password: password,
+          },
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+
+      setIsLoading(false); // Reset loading state after successful response
+
+      if (response.ok) {
+        // If registration is successful, use the login function to set the token in the AuthContext
+        login(result.data.token);
+        // Optionally, you can perform additional actions upon successful registration.
+        // For example, redirect the user to another page.
+      } else {
+        setError(result.error.message || "An error occurred during registration.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "An error occurred during registration."); // Set error message in state
+      setIsLoading(false); // Reset loading state after error
+    }
+  };
+
+  return (
+    <div>
+      <h1>Registration</h1>
+      <form onSubmit={handleRegistration}>
+        <label>
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Register"}
+        </button>
+      </form>
+      {error && <p>{String(error)}</p>}
+    </div>
+  );
+};
+
+
+
+/* const RegistrationPage = () => {
+  const { token, login, logout } = useContext(AuthContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleRegistration = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${BASE_URL}/users/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: {
+            username: username,
+            password: password,
+          }
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      setIsLoading(false); // Reset loading state after successful response
+      // Handle successful registration here, e.g., redirect to a new page, update context, etc.
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "An error occurred during registration."); // Set error message in state
+      setIsLoading(false); // Reset loading state after error
+    }
+  };
+
+  return (
+    <div>
+      <h1>Registration</h1>
+      <form onSubmit={handleRegistration}>
+        <label>
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Register"}
+        </button>
+      </form>
+      {error && <p>{String(error)}</p>}
+    </div>
+  );
+}; */
+
+/* const RegistrationPage = () => {
   const authContext = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -85,10 +234,10 @@ const RegistrationPage = () => {
       {error && <p>{String(error)}</p>}
     </div>
   );
-}; 
+};  */
 
-/* 
-const RegistrationPage = () => {
+
+/* const RegistrationPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
