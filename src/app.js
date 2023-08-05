@@ -5,7 +5,6 @@ import Login from './compenents/Login';
 import MyRoutines from './compenents/myRoutines';
 import Routines from './compenents/routines';
 import { AuthProvider, AuthContext } from './authProvider';
-import MyComponent from './compenents/MyComponent';
 import RegistrationPage from './compenents/Register';
 import RegisterUserTest from './compenents/test';
 
@@ -27,9 +26,6 @@ const App = () => {
               <Link to="/routines">Routines</Link>
             </li>
             <li>
-              <Link to="/MyComponent">MyComponent</Link>
-            </li>
-            <li>
               <Link to="/RegistrationPage">RegistrationPage</Link>
             </li>
             <li>
@@ -43,7 +39,6 @@ const App = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/myRoutines" element={<MyRoutines />} />
           <Route path="/routines" element={<Routines  />} />
-          <Route path="/MyComponent" element={<MyComponent  />} />
           <Route path="/RegistrationPage" element={<RegistrationPage  />} />
           <Route path="/RegisterUserTest" element={<RegisterUserTest  />} />
         </Routes>
