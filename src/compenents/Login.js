@@ -1,34 +1,83 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthProvider, AuthContext } from '../authProvider';
-import { BASE_URL } from '../api';
-
+import React, { useState, useEffect, useContext } from "react";
+import { BASE_URL } from "../api";
 
 const Login = () => {
-    const token = useContext(AuthContext);
     const [username, setUsername] = useState("");
-    const [userData, setUserData] = useState("");
+    const [password, setPassword] = useState("");
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-
-    const login = useContext(token, username);
-    
-    const setToken = (token) => { 
-        setLocalToken(authContext);
-        localStorage.setItem('token', token)
-    };
-
-    const loginUser = async (username, password) => {
-        try {
-            const response = await fetch()
-            
-        } catch (error) {
-            
+  
+    const handleLogin = async (e) => {
+      e.preventDefault();
+  
+      try {
+        const response = await fetch(`${BASE_URL}/users/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          setToken(data.token);
+          setUser(data.user);
+          setError(null);
+          console.log("Token:", data.token);
+          console.log("User:", user.username);
+          console.log("UserID", user.id)
+        } else {
+          setError(data.message || "Login failed. Please try again.");
+          setToken("");
+          setUser(null);
         }
-    }
+      } catch (error) {
+        console.error("Error during login:", error);
+        setError("An error occurred during login. Please try again.");
+        setToken("");
+        setUser(null);
+      }
+    };
+  
     return (
-        <div>
-            <h2>Login</h2>
-        </div>
-    )
-};
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={handleLogin}>
+          <label>
+            Username:
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <br />
+          <button type="submit">Login</button>
+        </form>
+        {user && (
+          <div>
+            <p>Welcome back {user.username}! Let's get FIT!</p>
+          </div>
+        )}
+        {error && <p>{error}</p>}
+      </div>
+    );
+  };
 
 export default Login;
+    

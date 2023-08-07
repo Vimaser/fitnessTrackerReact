@@ -3,11 +3,18 @@ import ReactDOM from 'react-dom';
 import App from './app';
 import { AuthProvider, AuthContext } from './authProvider';
 
-ReactDOM.render(
+/* ReactDOM.render(
     <React.StrictMode>
         <AuthProvider>
         <App />
         </AuthProvider>
     </React.StrictMode>,
     document.querySelector('.app') 
-);
+); */
+
+ReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    document.querySelector('.app')
+  );
