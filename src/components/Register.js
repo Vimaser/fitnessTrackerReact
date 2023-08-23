@@ -1,13 +1,11 @@
-import React, { useState, useContext } from "react";
-import { BASE_URL, registerUser } from "../api";
-
+import React, { useState } from "react";
+import { BASE_URL } from "../api";
 
 const RegistrationPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [token, setToken] = useState(null); 
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -29,6 +27,7 @@ const RegistrationPage = () => {
       });
 
       console.log("Received response:", response);
+      setUsername()
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -43,10 +42,11 @@ const RegistrationPage = () => {
         } else {
           console.log("Registration successful");
           const newToken = responseData.token;
-          console.log("Token:", newToken); 
+          console.log("Token:", newToken);
 
-         
-          setToken(newToken);
+          console.log("Calling handleToken with new token:", newToken);
+          handleToken(newToken);
+          handleUsername(user.username);
         }
       }
     } catch (error) {
@@ -55,7 +55,7 @@ const RegistrationPage = () => {
     }
 
     setIsLoading(false);
-  };
+  };  
 
   return (
     <div>
