@@ -77,7 +77,8 @@ const MyRoutines = ({ username, token }) => {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <div><h2>Please login!</h2>
+  <p>Error: {error}</p>;</div>;
 
   return (
     <div className="container mt-5">

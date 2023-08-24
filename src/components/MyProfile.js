@@ -42,7 +42,8 @@ const MyProfile = ({ token }) => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <div><h2>Please login!</h2>
+    <p>Error: {error}</p>;</div>
   }
 
   if (!userData) {
