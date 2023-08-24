@@ -6,40 +6,46 @@ const MyRoutines = ({ username, token }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [newRoutine, setNewRoutine] = useState({ name: "", goal: "", isPublic: true });
+  const [newRoutine, setNewRoutine] = useState({
+    name: "",
+    goal: "",
+    isPublic: true,
+  });
 
   useEffect(() => {
     fetchMyRoutines();
   }, [username, token]);
 
   const fetchMyRoutines = async () => {
-    setIsLoading(true); 
+    setIsLoading(true);
     try {
-        const headers = {
-            "Content-Type": "application/json",
-        };
+      const headers = {
+        "Content-Type": "application/json",
+      };
 
-        if (token) {
-            headers.Authorization = `Bearer ${token}`;
-        }
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
 
-        const response = await fetch(`${BASE_URL}/users/${username}/routines`, {
-            method: "GET",
-            headers: headers
-        });
+      const response = await fetch(`${BASE_URL}/users/${username}/routines`, {
+        method: "GET",
+        headers: headers,
+      });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            setError(errorData.error || "An error occurred while fetching routines.");
-            return;
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(
+          errorData.error || "An error occurred while fetching routines."
+        );
+        return;
+      }
 
-        const routinesData = await response.json();
-        setRoutines(routinesData);
+      const routinesData = await response.json();
+      setRoutines(routinesData);
     } catch (error) {
-        setError("An error occurred while fetching routines.");
+      setError("An error occurred while fetching routines.");
     } finally {
-        setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
@@ -48,10 +54,10 @@ const MyRoutines = ({ username, token }) => {
       const response = await fetch(`${BASE_URL}/routines`, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newRoutine)
+        body: JSON.stringify(newRoutine),
       });
       const result = await response.json();
       if (!response.ok) {
@@ -67,24 +73,25 @@ const MyRoutines = ({ username, token }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewRoutine(prevState => ({ ...prevState, [name]: value }));
+    setNewRoutine((prevState) => ({ ...prevState, [name]: value }));
   };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
+    <div className="container mt-5">
       <h2>Routines for {username}</h2>
-      
-      <h3>Create a New Routine</h3>
-      <div>
+
+      <h3 className="mt-4">Create a New Routine</h3>
+      <div className="mb-3">
         <input
           type="text"
           placeholder="Routine Name"
           name="name"
           value={newRoutine.name}
           onChange={handleInputChange}
+          className="form-control mt-2"
         />
         <input
           type="text"
@@ -92,21 +99,28 @@ const MyRoutines = ({ username, token }) => {
           name="goal"
           value={newRoutine.goal}
           onChange={handleInputChange}
+          className="form-control mt-2"
         />
-        <button onClick={createRoutine}>Create Routine</button>
+        <button onClick={createRoutine} className="btn btn-primary mt-2">
+          Create Routine
+        </button>
       </div>
 
       {routines.map((routine) => (
-        <div key={routine.id}>
-          <h3>{routine.name}</h3>
-          <p>{routine.goal}</p>
-          <ul>
-            {routine.activity.map((activity) => (
-              <li key={activity.id}>
-                {activity.name} - {activity.description}
-              </li>
-            ))}
-          </ul>
+        <div key={routine.id} className="card mt-4">
+          <div className="card-header">
+            <h3>{routine.name}</h3>
+          </div>
+          <div className="card-body">
+            <p>{routine.goal}</p>
+            <ul>
+              {routine.activity.map((activity) => (
+                <li key={activity.id}>
+                  {activity.name} - {activity.description}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ))}
     </div>

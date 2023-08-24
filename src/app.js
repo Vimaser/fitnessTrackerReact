@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 import Activities from './components/Activities';
 import Login from './components/Login';
 import MyRoutines from './components/MyRoutines';
@@ -8,54 +8,46 @@ import RegistrationPage from './components/Register';
 import MyProfile from './components/MyProfile';
 
 const App = () => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState('');
   const [username, setUsername] = useState("");
 
   const handleSetUsername = (newUsername) => {
     setUsername(newUsername);
-    console.log("Received username:", newUsername);
   };
 
   const handleSetToken = (newToken) => {
     setToken(newToken);
-    console.log("newToken:", newToken);
   };
 
-    return (
-      <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/activities">Activities</Link>
-            </li>
-            <li>
-              <Link to="/Login">Login</Link>
-            </li>
-            <li>
-              <Link to="/MyProfile">My Profile</Link>
-            </li>
-            <li>
-              <Link to="/MyRoutines">My Routines</Link>
-            </li>
-            <li>
-              <Link to="/routines">Routines</Link>
-            </li>
-            <li>
-              <Link to="/RegistrationPage">Registration</Link>
-            </li>
-         
+  return (
+    <Router>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <Link className="navbar-brand" to="/">App Name</Link>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item"><Link className="nav-link" to="/activities">Activities</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/my-profile">My Profile</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/my-routines">My Routines</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/routines">Routines</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/register">Register</Link></li>
           </ul>
-        </nav>
-        <Routes>
-        <Route path="/activities" element={<Activities username={username} token={token} />} />
-        <Route path="/Login" element={<Login handleToken={handleSetToken} handleUsername={handleSetUsername} />} />
-        <Route path="/MyProfile" element={<MyProfile username={username} token={token} />} />
-        <Route path="/MyRoutines" element={<MyRoutines username={username} token={token} />} />
-        <Route path="/routines" element={<Routines username={username} token={token} />} />
-        <Route path="/RegistrationPage" element={<RegistrationPage username={username} token={token} />} />
-      </Routes>
-      </BrowserRouter>
-    ); 
-  };
+        </div>
+      </nav>
 
-  export default App;
+      <Routes>
+        <Route path="/activities" element={<Activities username={username} token={token} />} />
+        <Route path="/login" element={<Login handleToken={handleSetToken} handleUsername={handleSetUsername} />} />
+        <Route path="/my-profile" element={<MyProfile username={username} token={token} />} />
+        <Route path="/my-routines" element={<MyRoutines username={username} token={token} />} />
+        <Route path="/routines" element={<Routines username={username} token={token} />} />
+        <Route path="/register" element={<RegistrationPage username={username} token={token} />} />
+      </Routes>
+    </Router>
+  ); 
+};
+
+export default App;

@@ -4,8 +4,8 @@ import { BASE_URL } from "../api";
 const Login = ({ handleToken, handleUsername }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [user, setUser] = useState('username');
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState("username");
   const [error, setError] = useState(null);
 
   const handleLogin = async (e) => {
@@ -31,12 +31,12 @@ const Login = ({ handleToken, handleUsername }) => {
         setError(null);
         console.log("Token:", data.token);
         console.log("User:", data.user.username);
-        
+
         if (user) {
           console.log("User:", user.username);
           console.log("UserID", user.id);
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('username', data.user.username);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("username", data.user.username);
           handleToken(data.token);
           handleUsername(data.user.username);
         }
@@ -54,38 +54,47 @@ const Login = ({ handleToken, handleUsername }) => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      {user && (
-        <div>
-          <p>Welcome back {user.username}! Let's get FIT!</p>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <h1 className="mb-4">Login</h1>
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label htmlFor="username">Username:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Login
+            </button>
+          </form>
+          {user && (
+            <div className="mt-4">
+              <p className="text-success">
+                Welcome back {user.username}! Let's get FIT!
+              </p>
+            </div>
+          )}
+          {error && <p className="mt-2 text-danger">{error}</p>}
         </div>
-      )}
-      {error && <p>{error}</p>}
+      </div>
     </div>
   );
 };
 
 export default Login;
-    

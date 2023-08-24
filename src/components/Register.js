@@ -27,7 +27,7 @@ const RegistrationPage = () => {
       });
 
       console.log("Received response:", response);
-      setUsername()
+      setUsername();
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -55,36 +55,40 @@ const RegistrationPage = () => {
     }
 
     setIsLoading(false);
-  };  
+  };
 
   return (
-    <div>
-      <h1>Registration</h1>
-      <form onSubmit={handleRegistration}>
-        <label>
-          Username:
+    <div className="container mt-5">
+      <h1 className="mb-4">Registration</h1>
+      <form onSubmit={handleRegistration} className="mb-4">
+        <div className="form-group">
+          <label htmlFor="registerUsername">Username:</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="form-control"
+            id="registerUsername"
+            placeholder="Enter your username"
           />
-        </label>
-        <br />
-        <label>
-          Password:
+        </div>
+        <div className="form-group">
+          <label htmlFor="registerPassword">Password:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="form-control"
+            id="registerPassword"
+            placeholder="Enter your password"
           />
-        </label>
-        <br />
-        <button type="submit" disabled={isLoading}>
+        </div>
+        <button type="submit" className="btn btn-primary" disabled={isLoading}>
           {isLoading ? "Loading..." : "Register"}
         </button>
       </form>
-      {error && <p>{String(error)}</p>}
+      {error && <p className="text-danger">{String(error)}</p>}
     </div>
   );
 };
