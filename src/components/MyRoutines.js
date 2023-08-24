@@ -106,24 +106,27 @@ const MyRoutines = ({ username, token }) => {
           Create Routine
         </button>
       </div>
-
       {routines.map((routine) => (
-        <div key={routine.id} className="card mt-4">
-          <div className="card-header">
-            <h3>{routine.name}</h3>
-          </div>
-          <div className="card-body">
-            <p>{routine.goal}</p>
-            <ul>
-              {routine.activity.map((activity) => (
-                <li key={activity.id}>
-                  {activity.name} - {activity.description}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
+  <div key={routine.id} className="card mt-4">
+    <div className="card-header">
+      <h3>{routine.name}</h3>
+    </div>
+    <div className="card-body">
+      <p>{routine.goal}</p>
+      <ul>
+        {routine.activity && Array.isArray(routine.activity) 
+          ? routine.activity.map((activity) => (
+            <li key={activity.id}>
+              {activity.name} - {activity.description}
+            </li>
+          ))
+          : <li>No activities listed.</li>
+        }
+      </ul>
+    </div>
+  </div>
+))}
+
     </div>
   );
 };
